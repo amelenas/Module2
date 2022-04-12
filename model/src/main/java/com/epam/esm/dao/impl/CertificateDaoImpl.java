@@ -2,9 +2,8 @@ package com.epam.esm.dao.impl;
 
 import com.epam.esm.dao.CertificateDao;
 import com.epam.esm.dao.TagDao;
+import com.epam.esm.dao.entity.Certificate;
 import com.epam.esm.dao.impl.mapper.CertificateMapper;
-import com.epam.esm.entity.Certificate;
-import com.epam.esm.exception.DaoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -20,7 +19,6 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 @Repository
 public class CertificateDaoImpl implements CertificateDao {
@@ -37,13 +35,14 @@ public class CertificateDaoImpl implements CertificateDao {
 
     @Autowired
     public CertificateDaoImpl(TagDao tagDao, JdbcTemplate jdbcTemplate) {
+
         this.tagDao = tagDao;
         this.jdbcTemplate = jdbcTemplate;
     }
 
     @Override
-    @Transactional
-    public Optional<Certificate> createCertificate(Certificate certificate) throws DaoException {
+    @Transactional(transactionManager = "transactionManager")
+    public Certificate createCertificate(Certificate certificate) {
         String date = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         KeyHolder keyHolder = new GeneratedKeyHolder();
         jdbcTemplate.update(connection -> {
@@ -76,12 +75,12 @@ public class CertificateDaoImpl implements CertificateDao {
     }
 
     @Override
-    public List<Optional<Certificate>> findCertificates() {
+    public List<Certificate> findCertificates() {
         return jdbcTemplate.query(GET_ALL_CERTIFICATES, new CertificateMapper());
     }
 
     @Override
-    public Optional<Certificate> findCertificate(long id) {
+    public Certificate findCertificate(long id) {
         return jdbcTemplate.queryForObject(GET_CERTIFICATE_BY_ID, new CertificateMapper(), id);
     }
 

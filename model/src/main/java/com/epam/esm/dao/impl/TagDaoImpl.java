@@ -1,9 +1,9 @@
 package com.epam.esm.dao.impl;
 
+
 import com.epam.esm.dao.TagDao;
+import com.epam.esm.dao.entity.Tag;
 import com.epam.esm.dao.impl.mapper.TagMapper;
-import com.epam.esm.entity.Tag;
-import com.epam.esm.exception.DaoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -28,7 +28,7 @@ public class TagDaoImpl implements TagDao {
     }
 
     @Override
-    public List<Optional<Tag>> findTags()  {
+    public List<Tag> findTags()  {
         return jdbcTemplate.query(NAME_FROM_TAG, new TagMapper());
     }
 
@@ -38,7 +38,7 @@ public class TagDaoImpl implements TagDao {
     }
 
     @Override
-    public Optional<Tag> findTag(long id) {
+    public Tag findTag(long id) {
         return jdbcTemplate.queryForObject(NAME_FROM_TAG_WHERE_ID, new TagMapper(), id);
     }
 
@@ -61,9 +61,7 @@ public class TagDaoImpl implements TagDao {
         try {
             return Optional.ofNullable(jdbcTemplate.queryForObject(FIND_TAG_BY_NAME, new TagMapper(), name)).isPresent();
         } catch (EmptyResultDataAccessException e) {
-           return false;
+            return false;
         }
     }
-
-
 }

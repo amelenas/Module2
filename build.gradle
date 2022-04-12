@@ -1,5 +1,5 @@
 allprojects {
-    group 'com.epam.esm'
+    group 'com.epam.esm.module2'
 }
 
 wrapper {

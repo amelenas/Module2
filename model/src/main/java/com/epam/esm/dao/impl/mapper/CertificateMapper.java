@@ -1,15 +1,14 @@
 package com.epam.esm.dao.impl.mapper;
 
-import com.epam.esm.entity.Certificate;
+import com.epam.esm.dao.entity.Certificate;
 import org.springframework.jdbc.core.RowMapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
-public class CertificateMapper implements RowMapper<Optional<Certificate>> {
+public class CertificateMapper implements RowMapper<Certificate> {
     private static final String ID = "id";
     private static final String NAME = "name";
     private static final String DESCRIPTION = "description";
@@ -19,7 +18,7 @@ public class CertificateMapper implements RowMapper<Optional<Certificate>> {
     private static final String LAST_UPDATE_DATE = "last_update_date";
 
     @Override
-    public Optional<Certificate> mapRow(ResultSet resultSet, int rowNum) throws SQLException {
+    public Certificate mapRow(ResultSet resultSet, int rowNum) throws SQLException {
         Certificate certificate = new Certificate();
         certificate.setId(resultSet.getInt(ID));
         certificate.setName(resultSet.getString(NAME));
@@ -30,8 +29,8 @@ public class CertificateMapper implements RowMapper<Optional<Certificate>> {
         certificate.setLastUpdateDate(resultSet.getString(LAST_UPDATE_DATE));
         String tags = resultSet.getString(8);
         if (tags!=null){
-        List<String> tagList = Arrays.asList((resultSet.getString(8)).trim().split(","));
-        certificate.setTagNames(tagList);}
-        return Optional.of(certificate);
+            List<String> tagList = Arrays.asList((resultSet.getString(8)).trim().split(","));
+            certificate.setTagNames(tagList);}
+        return certificate;
     }
 }

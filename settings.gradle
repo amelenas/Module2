@@ -1,4 +1,6 @@
-rootProject.name = 'Module_2'
+rootProject.name = 'Module2'
 include 'model'
 include 'service'
+include 'web'
+include 'logging'
 
