@@ -6,13 +6,11 @@ import com.epam.esm.service.CertificateService;
 import com.epam.esm.service.exception.ServiceException;
 import com.epam.esm.service.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-@ComponentScan("com.epam.esm.dao")
 public class CertificateServiceImpl implements CertificateService {
 
     private final CertificateDao certificateDao;

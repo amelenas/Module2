@@ -15,7 +15,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/certificates")
-@ComponentScan("com.epam.esm.service")
 public class CertificateController {
 
     private final CertificateService certificateService;
