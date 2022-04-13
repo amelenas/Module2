@@ -9,7 +9,6 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 @ComponentScan("com.epam.esm")
 @Configuration
 @EnableWebMvc
-@Import({DBConfigMain.class, LoggingConfig.class})
+@Import({ConfigProd.class, ConfigDev.class, LoggingConfig.class})
 public class CommonConfig {
-
 }

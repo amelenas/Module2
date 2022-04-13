@@ -18,12 +18,15 @@ public class ErrorResponse {
     public ErrorResponse(String errorMsg, List<String> errors, HttpStatus status) {
         this.errorMsg = errorMsg;
         this.errors = errors;
+        this.status=status;
+
     }
 
-    public ErrorResponse(String errorMsg, String debugMsh, HttpStatus status) {
+    public ErrorResponse(String errorMsg, String debugMsh, HttpStatus status, String debugMsg) {
         this.errorMsg = errorMsg;
         this.debugMsg = debugMsh;
         this.status = status;
+        this.debugMsg=debugMsg;
     }
 
     public String getErrorMsg() {

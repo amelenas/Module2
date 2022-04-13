@@ -18,7 +18,7 @@ import javax.sql.DataSource;
 @Configuration
 @EnableTransactionManagement
 @PropertySource("classpath:database.properties")
-public class DBConfigMain {
+public class ConfigProd {
     @Bean
     public DataSource dataSource(@Value("${db.user}") String user,
                                  @Value("${db.password}") String password,

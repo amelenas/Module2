@@ -8,12 +8,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
-import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,23 +22,29 @@ import static org.springframework.http.HttpStatus.BAD_REQUEST;
 
 @EnableWebMvc
 @ControllerAdvice
-public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
+public class ControllerExceptionHandler extends ResponseEntityExceptionHandler   {
 
     @ExceptionHandler(ServiceException.class)
-    protected ResponseEntity<Object> handleServiceException(ServiceException ex) {
-        ErrorResponse errorResponse = new ErrorResponse(BAD_REQUEST.toString(), "Something went wrong.");
+    public ResponseEntity<Object> handleServiceException(ServiceException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(BAD_REQUEST.toString(), "Something went wrong.", HttpStatus.BAD_REQUEST, "4041");
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(RuntimeException.class)
-    protected ResponseEntity<Object> handleRuntimeException(RuntimeException ex) {
-        ErrorResponse errorResponse = new ErrorResponse(BAD_REQUEST.toString(),"Something went wrong.");
+    public ResponseEntity<Object> handleRuntimeException(RuntimeException ex) {
+        ErrorResponse errorResponse = new ErrorResponse(BAD_REQUEST.toString(), "Something went wrong.", HttpStatus.BAD_REQUEST, "4042");
         return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
     }
 
-    @ExceptionHandler({MethodArgumentTypeMismatchException.class, JsonProcessingException.class})
+    @Override
+    protected ResponseEntity <Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+        ErrorResponse errorResponse = new ErrorResponse(BAD_REQUEST.toString(), "Something went wrong.", HttpStatus.BAD_REQUEST, "4043");
+        return new ResponseEntity<>(errorResponse, HttpStatus.BAD_REQUEST);
+    }
+
+        @ExceptionHandler({MethodArgumentTypeMismatchException.class, JsonProcessingException.class})
     public final ResponseEntity<Object> handleBadRequestExceptions() {
-        ErrorResponse errorResponse = new ErrorResponse(BAD_REQUEST.toString(), "Something went wrong.");
+        ErrorResponse errorResponse = new ErrorResponse(BAD_REQUEST.toString(), "Something went wrong.", HttpStatus.BAD_REQUEST, "4044");
         return new ResponseEntity<>(errorResponse, BAD_REQUEST);
     }
 

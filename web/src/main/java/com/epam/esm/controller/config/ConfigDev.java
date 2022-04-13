@@ -1,18 +1,23 @@
-package com.epam.esm.dao.config;
+package com.epam.esm.controller.config;
 
 import org.apache.commons.dbcp.BasicDataSource;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.PropertySource;
+import org.springframework.context.annotation.*;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.init.DatabasePopulator;
+import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
+import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
 
 import javax.sql.DataSource;
 
 @Configuration
-@PropertySource("classpath:database.properties")
+@ComponentScan("com.epam.esm")
+@PropertySource("classpath:test.properties")
+@Profile("test")
+public class ConfigDev {
 
-public class DBConfig {
     @Bean
     public DataSource dataSource(@Value("${db.user}") String user,
                                  @Value("${db.password}") String password,
@@ -25,11 +30,15 @@ public class DBConfig {
         basicDataSource.setDriverClassName(className);
         basicDataSource.setUrl(connectionUrl);
         basicDataSource.setMaxActive(connectionsNumber);
+
+        Resource initData = new ClassPathResource("certificates_script.sql");
+        DatabasePopulator databasePopulator = new ResourceDatabasePopulator(initData);
+        DatabasePopulatorUtils.execute(databasePopulator, basicDataSource);
         return basicDataSource;
     }
+
     @Bean
     public JdbcTemplate jdbcTemplate(DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
-
 }
