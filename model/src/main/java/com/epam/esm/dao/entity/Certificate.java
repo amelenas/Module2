@@ -1,22 +1,16 @@
 package com.epam.esm.dao.entity;
 
-import com.fasterxml.jackson.annotation.*;
-
-import javax.validation.constraints.Min;
-import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Objects;
 
 public class Certificate implements Serializable {
+    private static final long serialVersionUID = 11L;
+
     private long id;
-    @Size(max = 100, min = 1)
     private String name;
-    @Size(max = 100, min = 1)
     private String description;
-    @Min(1)
     private double price;
-    @Min(1)
     private int duration;
     private String createDate;
     private String lastUpdateDate;
@@ -45,11 +39,11 @@ public class Certificate implements Serializable {
         this.duration = duration;
     }
 
-    @JsonCreator
-    public Certificate(@JsonProperty("id") long id, @JsonProperty("name") String name, @JsonProperty("description") String description,
-                       @JsonProperty("price") double price,@JsonProperty("duration") int duration,
-                       @JsonProperty("tagNames") List<String> tagNames) {
-        this.id = id;
+    public Certificate(long id, String name, String description,
+                        double price, int duration,
+                        List<String> tagNames) {
+
+       this.id = id;
         this.name = name;
         this.description = description;
         this.price = price;
@@ -78,85 +72,69 @@ public class Certificate implements Serializable {
         this.description = description;
     }
 
-    @JsonGetter("id")
     public long getId() {
         return id;
     }
 
-    @JsonSetter("id")
     public void setId(long id) {
         this.id = id;
     }
 
-    @JsonGetter("name")
     public String getName() {
         return name;
     }
 
-    @JsonSetter("name")
     public void setName(String name) {
         this.name = name;
     }
 
-    @JsonGetter("description")
     public String getDescription() {
         return description;
     }
 
-    @JsonSetter("description")
     public void setDescription(String description) {
         this.description = description;
     }
 
-    @JsonGetter("price")
     public double getPrice() {
         return price;
     }
 
-    @JsonSetter("price")
     public void setPrice(double price) {
         this.price = price;
     }
 
-    @JsonGetter("duration")
     public int getDuration() {
         return duration;
     }
 
-    @JsonSetter("duration")
     public void setDuration(int duration) {
         this.duration = duration;
     }
 
-    @JsonGetter("createDate")
     public String getCreateDate() {
         return createDate;
     }
 
-    @JsonSetter("createDate")
     public void setCreateDate(String createDate) {
         this.createDate = createDate;
     }
 
-    @JsonGetter("lastUpdateDate")
     public String getLastUpdateDate() {
         return lastUpdateDate;
     }
 
-    @JsonSetter("lastUpdateDate")
     public void setLastUpdateDate(String lastUpdateDate) {
         this.lastUpdateDate = lastUpdateDate;
     }
-    @JsonGetter("tagNames")
+
     public List<String> getTagNames() {
         return tagNames;
     }
-    @JsonSetter("tagNames")
+
     public void setTagNames(List<String> tagNames) {
         this.tagNames = tagNames;
     }
-
-
 
     @Override
     public String toString() {
