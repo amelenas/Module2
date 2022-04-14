@@ -4,7 +4,6 @@ import com.epam.esm.dao.entity.Certificate;
 import com.epam.esm.service.CertificateService;
 import com.epam.esm.service.exception.ServiceException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;

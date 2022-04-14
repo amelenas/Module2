@@ -41,7 +41,6 @@ public class CertificateDaoImpl implements CertificateDao {
     }
 
     @Override
-    @Transactional(transactionManager = "transactionManager")
     public Certificate createCertificate(Certificate certificate) {
         String date = ZonedDateTime.now(ZoneOffset.UTC).format(DateTimeFormatter.ISO_LOCAL_DATE_TIME);
         KeyHolder keyHolder = new GeneratedKeyHolder();

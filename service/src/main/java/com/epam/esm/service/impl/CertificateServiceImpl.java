@@ -7,6 +7,7 @@ import com.epam.esm.service.exception.ServiceException;
 import com.epam.esm.service.validation.Validator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -21,6 +22,7 @@ public class CertificateServiceImpl implements CertificateService {
     }
 
     @Override
+    @Transactional(transactionManager = "transactionManager")
     public Certificate createCertificate(Certificate certificate) throws ServiceException {
         if (!Validator.isValuePresent(certificate)) {
             throw new ServiceException("Some of parameters are null");
