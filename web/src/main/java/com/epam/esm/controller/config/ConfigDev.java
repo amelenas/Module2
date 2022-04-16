@@ -1,21 +1,21 @@
 package com.epam.esm.controller.config;
 
 import org.apache.commons.dbcp.BasicDataSource;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.*;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.datasource.init.DatabasePopulator;
-import org.springframework.jdbc.datasource.init.DatabasePopulatorUtils;
-import org.springframework.jdbc.datasource.init.ResourceDatabasePopulator;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
 @Configuration
 @ComponentScan("com.epam.esm")
+@EnableTransactionManagement
 @PropertySource("classpath:test.properties")
-@Profile("test")
+@Profile("dev")
 public class ConfigDev {
 
     @Bean
@@ -30,15 +30,16 @@ public class ConfigDev {
         basicDataSource.setDriverClassName(className);
         basicDataSource.setUrl(connectionUrl);
         basicDataSource.setMaxActive(connectionsNumber);
-
-        Resource initData = new ClassPathResource("certificates_script.sql");
-        DatabasePopulator databasePopulator = new ResourceDatabasePopulator(initData);
-        DatabasePopulatorUtils.execute(databasePopulator, basicDataSource);
         return basicDataSource;
     }
 
     @Bean
     public JdbcTemplate jdbcTemplate(DataSource dataSource) {
         return new JdbcTemplate(dataSource);
+    }
+
+    @Bean(name = "transactionManager")
+    public PlatformTransactionManager txManager(@Qualifier("dataSource") DataSource dataSource) {
+        return new DataSourceTransactionManager(dataSource);
     }
 }
